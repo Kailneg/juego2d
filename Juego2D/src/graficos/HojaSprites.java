@@ -7,29 +7,39 @@ import javax.imageio.ImageIO;
 
 public class HojaSprites {
 	
-	private final int ancho;
-	private final int alto;
+//Atributos
+	private final int ANCHO;
+	private final int ALTO;
+	private final String RUTA;
 	private BufferedImage imagen;
-	private final int[] pixeles;
+	public final int[] pixeles;
 	
-	//Se pone final por buena costumbre, así se le ayuda a JVM a interpretar el código
+//Constructor			Se pone final por buena costumbre, así se le ayuda a JVM a interpretar el código
+	
 	public HojaSprites(final String ruta, final int ancho, final int alto) {
-		this.ancho = ancho;
-		this.alto = alto;
+		this.ANCHO = ancho;
+		this.ALTO = alto;
+		this.RUTA = ruta;
 		
 		//El array tiene que tener el mismo tamaño que píxeles tenga el SpriteSheet
 		pixeles = new int[ancho*alto];
 
+		cargar();
+	}
+	
+	private void cargar(){
+		//Cargar el spritesheet como imagen y cargarlo en el array de int como píxeles individuales
 		try {
-			imagen = ImageIO.read(HojaSprites.class.getResource(ruta));
+			imagen = ImageIO.read(HojaSprites.class.getResource(RUTA));
+			imagen.getRGB(0, 0, ANCHO, ALTO, pixeles, 0, ANCHO);
 			
-			imagen.getRGB(0, 0, ancho, alto, pixeles, 0, ancho);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+//Getter
 	public int getAncho(){
-		return ancho;
+		return ANCHO;
 	}
 }
